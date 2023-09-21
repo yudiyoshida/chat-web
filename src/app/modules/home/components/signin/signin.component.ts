@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/modules/core/auth/auth.service';
 import { ISignInForm } from 'src/app/modules/core/models/forms/auth.model';
 
@@ -17,7 +16,6 @@ export class SigninComponent implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
     private authService: AuthService,
-    private toastr: ToastrService,
     private router: Router,
   ) {}
 
@@ -40,8 +38,7 @@ export class SigninComponent implements OnInit {
     const data = this.signinForm.getRawValue();
     this.authService.login(data).subscribe({
       next: () => {
-        this.toastr.success('Login realizado com sucesso!');
-        // this.router.navigate(['/chats']);
+        // this.router.navigate(['/main']);
       },
     });
   }

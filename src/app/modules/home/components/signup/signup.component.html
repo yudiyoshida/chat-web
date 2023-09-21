@@ -1,0 +1,41 @@
+<section class="p-5 max-w-md mx-auto">
+  <mat-card>
+    <mat-card-header>
+      <h1 class="text-2xl font-bold">Sign up</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+        <div (click)="image.click()" class="rounded-full h-32 w-32 mx-auto border border-black overflow-hidden mb-5 cursor-pointer">
+          <img [src]="imagePreview ?? 'assets/default-avatar.jpg'" class="h-full">
+        </div>
+        <input type="file" #image class="hidden" accept="image/*" (change)="onFileChange($event)">
+
+        <mat-form-field class="w-full">
+            <mat-label>Name</mat-label>
+            <input matInput required type="name" formControlName="name">
+            <mat-error *ngIf="getError('name', 'required')">Required field</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="w-full">
+            <mat-label>E-mail</mat-label>
+            <input matInput required type="email" formControlName="email">
+            <mat-error *ngIf="getError('email', 'required')">Required field</mat-error>
+            <mat-error *ngIf="getError('email', 'pattern')">Invalid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+          <button type="button" mat-icon-button matSuffix (click)="hide = !hide" class="mr-3">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="getError('password', 'required')">Required field</mat-error>
+          <mat-error *ngIf="getError('password', 'minlength')">Password must contain, at least, 8 characters</mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="w-full" [disabled]="signupForm.invalid">Sign in</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

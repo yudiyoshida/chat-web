@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
   },
+  {
+    path: 'channels',
+    loadChildren: () => import('./modules/channel/channel.module').then(m => m.ChannelModule),
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Friends</mat-toolbar>
+    <mat-nav-list>
+      <ng-container *ngIf="users$ | async as users">
+        <div *ngFor="let user of users">
+          <div class="border border-l-8" [ngClass]="user.online ? 'border-l-green-500' : 'border-l-red-500'">
+            <a mat-list-item>{{ user.name }}</a>
+          </div>
+        </div>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div *ngIf="account$ | async as account" class="w-full">
+        <div class="flex justify-between items-center gap-3">
+          <p class="flex-grow">{{ account.name }}</p>
+          <button mat-flat-button color="warn" (click)="logout()">Log out</button>
+        </div>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

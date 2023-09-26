@@ -25,8 +25,8 @@ export class SigninComponent implements OnInit {
 
   public createSigninForm() {
     this.signinForm = this.fb.group({
-      credential: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      password: ['', [Validators.required]],
+      credential: ['user@getnada.com', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      password: ['123456789', [Validators.required]],
     });
   }
 
@@ -38,7 +38,7 @@ export class SigninComponent implements OnInit {
     const data = this.signinForm.getRawValue();
     this.authService.login(data).subscribe({
       next: () => {
-        // this.router.navigate(['/main']);
+        this.router.navigate(['/channels']);
       },
     });
   }

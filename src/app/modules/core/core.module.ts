@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { GlobalErrorHandlerInterceptor } from './interceptors/global-error-handler.interceptor';
+import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
 
 @NgModule({
   declarations: [],
@@ -16,6 +17,7 @@ import { GlobalErrorHandlerInterceptor } from './interceptors/global-error-handl
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: GlobalErrorHandlerInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true },
   ],
 })
 export class CoreModule { }

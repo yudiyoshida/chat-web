@@ -12,4 +12,8 @@ export class UserService {
   public register(data: FormData) {
     return this.http.post<IUser>(`${environment.api}/users`, data);
   }
+
+  public getAll() {
+    return this.http.get<IUser[]>(`${environment.api}/users`);
+  }
 }

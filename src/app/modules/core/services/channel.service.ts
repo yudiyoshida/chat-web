@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IUser } from './models/resource/user.model';
-import { StorageService } from './auth/storage.service';
+import { IUser } from '../models/resource/user.model';
+import { StorageService } from '../auth/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 

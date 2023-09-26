@@ -4,6 +4,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { GlobalErrorHandlerInterceptor } from './interceptors/global-error-handler.interceptor';
 import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
+import { SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [],
@@ -13,6 +15,10 @@ import { AuthorizationInterceptor } from './interceptors/authorization.intercept
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
+    }),
+    SocketIoModule.forRoot({
+      url: environment.api,
+      options: { autoConnect: false },
     }),
   ],
   providers: [

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
-import jwtDecode from 'jwt-decode';
 import { IPayload } from '../models/resource/auth.model';
 import { Router } from '@angular/router';
-import { SocketioService } from '../services/socketio.service';
+import jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,6 @@ export class AccountService {
 
   constructor(
     private router: Router,
-    private socket: SocketioService,
     private storageService: StorageService,
   ) {
     const token = this.storageService.getToken();
@@ -29,13 +27,11 @@ export class AccountService {
   public saveSession(token: string) {
     this.storageService.saveToken(token);
     this.decodeAndNotify(token);
-    this.socket.connect();
   }
 
   public deleteSession() {
     this.storageService.deleteToken();
     this.router.navigate(['/']);
-    this.socket.disconnect();
   }
 
   public get account() {

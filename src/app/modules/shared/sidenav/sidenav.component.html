@@ -27,10 +27,14 @@
       <div *ngIf="account$ | async as account" class="w-full">
         <div class="flex justify-between items-center gap-3">
           <p class="flex-grow">{{ account.name }}</p>
+          <button mat-flat-button color="accent" (click)="online()">Online</button>
+          <button mat-flat-button color="accent" (click)="offline()">Offline</button>
           <button mat-flat-button color="warn" (click)="logout()">Log out</button>
         </div>
       </div>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <div class="p-4">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

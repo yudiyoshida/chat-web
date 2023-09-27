@@ -3,6 +3,7 @@ import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/modules/core/auth/auth.service';
 import { ISignInForm } from 'src/app/modules/core/models/forms/auth.model';
+import { SocketioService } from 'src/app/modules/core/services/socketio.service';
 
 @Component({
   selector: 'app-signin',
@@ -16,6 +17,7 @@ export class SigninComponent implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
     private authService: AuthService,
+    private socketService: SocketioService,
     private router: Router,
   ) {}
 
@@ -25,7 +27,7 @@ export class SigninComponent implements OnInit {
 
   public createSigninForm() {
     this.signinForm = this.fb.group({
-      credential: ['user@getnada.com', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      credential: ['user1@getnada.com', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       password: ['123456789', [Validators.required]],
     });
   }
@@ -39,6 +41,7 @@ export class SigninComponent implements OnInit {
     this.authService.login(data).subscribe({
       next: () => {
         this.router.navigate(['/channels']);
+        this.socketService.connect();
       },
     });
   }

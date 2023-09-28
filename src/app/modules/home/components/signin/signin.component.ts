@@ -40,7 +40,7 @@ export class SigninComponent implements OnInit {
     const data = this.signinForm.getRawValue();
     this.authService.login(data).subscribe({
       next: () => {
-        this.router.navigate(['/channels']);
+        this.router.navigate(['/chats']);
         this.socketService.connect();
       },
     });

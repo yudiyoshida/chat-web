@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
   },
   {
-    path: 'channels',
-    loadChildren: () => import('./modules/channel/channel.module').then(m => m.ChannelModule),
+    path: 'chats',
+    loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule),
   },
 ];
 

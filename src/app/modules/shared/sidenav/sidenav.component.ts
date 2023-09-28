@@ -20,7 +20,7 @@ import { SocketioService } from '../../core/services/socketio.service';
 })
 export class SidenavComponent implements OnInit {
   public account$ = this.accountService.account;
-  public users$ = this.socketService.onUserList();
+  public users$ = this.socketService.onUserList(this.socketService.account);
 
   public isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(result => result.matches),

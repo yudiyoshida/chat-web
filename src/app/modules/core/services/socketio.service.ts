@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { AccountService } from '../auth/account.service';
 import { IPayload } from '../models/resource/auth.model';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, filter, map, skipWhile, tap } from 'rxjs';
+import { IMessage } from '../models/resource/message.model';
+import { IChat } from '../models/resource/chat.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketioService {
-  private account!: IPayload | null;
+  public account!: IPayload | null;
 
   constructor(
     private socket: Socket,
@@ -36,10 +38,9 @@ export class SocketioService {
     this.socket.emit('user:list');
   }
 
-  public onUserList(): Observable<IPayload[]> {
+  public onUserList(me: IPayload | null): Observable<IPayload[]> {
     return this.socket.fromEvent<IPayload[]>('user:list').pipe(
-      tap(data => console.log(data)),
-      map(data => data),
+      map(data => data.filter(user => user.id !== me?.id)),
     );
   }
 
@@ -49,5 +50,15 @@ export class SocketioService {
 
   public emitUserOffline(): void {
     this.socket.emit('user:offline');
+  }
+
+  public emitMessageList(userId: number): Observable<IChat> {
+    return new Observable<IChat>(observer => {
+      console.log(userId);
+      this.socket.emit('message:list', userId, (data: IChat) => {
+        console.log(data);
+        observer.next(data);
+      });
+    });
   }
 }

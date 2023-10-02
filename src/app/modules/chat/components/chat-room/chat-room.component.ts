@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IMessageForm } from 'src/app/modules/core/models/forms/message.model';
 import { IChat } from 'src/app/modules/core/models/resource/chat.model';
 import { IMessage, ISendMessage } from 'src/app/modules/core/models/resource/message.model';
+import { SocketioService } from 'src/app/modules/core/services/socketio.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -21,6 +22,7 @@ export class ChatRoomComponent implements OnInit {
   constructor(
     private _fb: NonNullableFormBuilder,
     private activatedRoute: ActivatedRoute,
+    private socket: SocketioService,
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class ChatRoomComponent implements OnInit {
   private subscribeToUserIdParams() {
     this.activatedRoute.params.subscribe({
       next: (params) => {
-        console.log(params['userId']);
+        this.chat$ = this.socket.emitChatDetail(params['userId']);
       },
     });
   }

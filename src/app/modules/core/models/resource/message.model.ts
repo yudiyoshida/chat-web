@@ -6,3 +6,8 @@ export interface IMessage {
   sentAt: Date;
   sentBy: IUser;
 }
+
+export interface ISendMessage {
+  chatId: number;
+  content: string;
+}

@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: ChatComponent,
     children: [
-      { path: ':userId', component: ChatRoomComponent },
+      // { path: ':userId', component: ChatRoomComponent },
     ],
   },
 ];

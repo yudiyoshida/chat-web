@@ -1,31 +1,38 @@
 <section class="relative">
+  <p>oi</p>
   <div class="p-4" *ngIf="chat$ | async as chat">
-    <div>
-      <img [src]="chat.users.others[0].imageUrl" alt="">
-      <p>{{ chat.users.others[0].name }} ({{ chat.users.others[0].email }})</p>
-    </div>
+    <ng-container>
+      <div>
+        <p>{{ chat | json }}</p>
+        <img [src]="chat.users.others[0].imageUrl" alt="">
+        <p>{{ chat.users.others[0].name }} ({{ chat.users.others[0].email }})</p>
+      </div>
+    </ng-container>
     <hr class="my-4">
-    <ul class="w-full">
-      <li *ngFor="let msg of chat.messages">
-        <div class="mb-4" [ngClass]="msg.sentBy.id === chat.users.me.id ? 'my-message' : 'other-message'">
-          <div class="inline-block max-w-[85%]">
-            <p class="text-right">{{ msg.sentAt | date: 'hh:mm:ss a - MMM d, y':'UTC-3' }}</p>
-            <div class="p-4 rounded-md" [ngClass]="msg.sentBy.id === chat.users.me.id ? 'bg-blue-500' : 'bg-gray-300'">
-              <p class="break-words">{{ msg.content }}</p>
+    <ng-container *ngIf="messages$ | async as messages">
+      <ul class="w-full">
+        <li *ngFor="let msg of messages">
+          <div class="mb-4" [ngClass]="msg.sentBy.id === chat.users.me.id ? 'my-message' : 'other-message'">
+            <div class="inline-block max-w-[85%]">
+              <p class="text-right">{{ msg.sentAt | date: 'hh:mm:ss a - MMM d, y':'UTC-3' }}</p>
+              <div class="p-4 rounded-md" [ngClass]="msg.sentBy.id === chat.users.me.id ? 'bg-blue-500' : 'bg-gray-300'">
+                <p class="break-words">{{ msg.content }}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="sticky bottom-0">
-    <form class="w-full">
-      <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-        <input matInput type="text" autocomplete="off" placeholder="Enter your message..">
-        <button mat-icon-button matSuffix>
-          <mat-icon>send</mat-icon>
-        </button>
-      </mat-form-field>
-    </form>
+          <p>{{ msg | json }}</p>
+        </li>
+      </ul>
+    </ng-container>
+    <div class="sticky bottom-0">
+      <form class="w-full" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+          <input matInput type="text" autocomplete="off" placeholder="Enter your message.." formControlName="content">
+          <button mat-icon-button matSuffix [disabled]="form.invalid">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </div>
   </div>
 </section>

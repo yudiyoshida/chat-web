@@ -6,6 +6,7 @@ import { ChatComponent } from './chat.component';
 import { SidenavComponent } from '../shared/sidenav/sidenav.component';
 import { ChatRoomComponent } from './components/chat-room/chat-room.component';
 import { MaterialModule } from 'src/app/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { MaterialModule } from 'src/app/material.module';
     CommonModule,
     ChatRoutingModule,
     MaterialModule,
+    ReactiveFormsModule,
     SidenavComponent,
   ],
 })

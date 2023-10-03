@@ -1,1 +1,6 @@
-<app-sidenav></app-sidenav>
+<app-sidenav
+  (onAddButtonEvent)="openCreateChatDialog()"
+  (onRowClick)="gotoChatDetail($event)"
+  [title]="'My chats'"
+  [resources$]="chats$"
+></app-sidenav>

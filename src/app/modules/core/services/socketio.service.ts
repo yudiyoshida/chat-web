@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { AccountService } from '../auth/account.service';
 import { IPayload } from '../models/resource/auth.model';
-import { Observable, map } from 'rxjs';
-import { IChat } from '../models/resource/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,36 +31,5 @@ export class SocketioService {
   public disconnect() {
     console.log('chamou disconnect');
     this.socket.disconnect();
-  }
-
-  public onUserList(me: IPayload | null): Observable<IPayload[]> {
-    console.log('chamou onUserList');
-    return this.socket.fromEvent<IPayload[]>('user:list').pipe(
-      map(data => data.filter(user => user.id !== me?.id)),
-    );
-  }
-
-  public emitUserList(): void {
-    console.log('chamou emitUserList');
-    this.socket.emit('user:list');
-  }
-
-  public emitUserOnline(): void {
-    console.log('chamou emitUserOnline');
-    this.socket.emit('user:online');
-  }
-
-  public emitUserOffline(): void {
-    console.log('chamou emitUserOffline');
-    this.socket.emit('user:offline');
-  }
-
-  public emitChatDetail(targetId: number): Observable<IChat> {
-    console.log('chamou emitChatDetail');
-    return new Observable(observer => {
-      this.socket.emit('chat:detail', targetId, (chat: IChat) => {
-        observer.next(chat);
-      });
-    });
   }
 }

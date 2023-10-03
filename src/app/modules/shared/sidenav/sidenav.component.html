@@ -3,12 +3,20 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Friends</mat-toolbar>
+    <mat-toolbar class="justify-between items-center">
+      <p>{{ title }}</p>
+      <button mat-mini-fab color="primary" (click)="buttonClick()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
     <mat-nav-list>
-      <ng-container *ngIf="users$ | async as users">
-        <div *ngFor="let user of users">
-          <div class="border border-l-8" [ngClass]="user.online ? 'border-l-green-500' : 'border-l-red-500'">
-            <a mat-list-item [routerLink]="[user.id]">{{ user.name }}</a>
+      <ng-container *ngIf="resources$ | async as resources">
+        <div *ngFor="let resource of resources">
+          <div class="border border-l-8">
+            <a mat-list-item
+              [routerLink]="[resource.id]"
+              (click)="rowClick(resource)"
+            >{{ resource.name }}</a>
           </div>
         </div>
       </ng-container>
@@ -26,9 +34,9 @@
       </button>
       <div *ngIf="account$ | async as account" class="w-full">
         <div class="flex justify-between items-center gap-3">
-          <p class="flex-grow">{{ account.name }}</p>
-          <button mat-flat-button color="accent" (click)="online()">Online</button>
-          <button mat-flat-button color="accent" (click)="offline()">Offline</button>
+          <p class="flex-grow">I'm {{ account.name }}</p>
+          <button mat-flat-button color="accent">Online</button>
+          <button mat-flat-button color="accent">Offline</button>
           <button mat-flat-button color="warn" (click)="logout()">Log out</button>
         </div>
       </div>

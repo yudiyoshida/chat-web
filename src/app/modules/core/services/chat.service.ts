@@ -9,7 +9,11 @@ import { IChat } from '../models/resource/chat.model';
 export class ChatService {
   constructor(private http: HttpClient) {}
 
-  public getById(userId: number) {
-    return this.http.get<IChat>(`${environment.api}/chats/${userId}`);
+  public getAll() {
+    return this.http.get<IChat[]>(`${environment.api}/chats`);
+  }
+
+  public getById(chatId: number) {
+    return this.http.get<IChat>(`${environment.api}/chats/${chatId}`);
   }
 }

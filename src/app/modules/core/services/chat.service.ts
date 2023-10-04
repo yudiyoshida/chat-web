@@ -16,4 +16,8 @@ export class ChatService {
   public getById(chatId: number) {
     return this.http.get<IChat>(`${environment.api}/chats/${chatId}`);
   }
+
+  public create(ids: number[]) {
+    return this.http.post<IChat>(`${environment.api}/chats`, { ids });
+  }
 }

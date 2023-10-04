@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IChat } from '../core/models/resource/chat.model';
+import { IChat, ICreateChat } from '../core/models/resource/chat.model';
 import { IUser } from '../core/models/resource/user.model';
 import { Observable, map, tap } from 'rxjs';
 import { IListDialogInputs, ListDialogComponent } from '../shared/dialogs/list-dialog/list-dialog.component';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../core/services/chat.service';
 import { UserService } from '../core/services/user.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -25,8 +26,12 @@ export class ChatComponent {
   ) {}
 
   ngOnInit(): void {
+    this.getAllChats();
+  }
+
+  public getAllChats() {
     this.chats$ = this.chatService.getAll().pipe(
-      tap(data => console.log(data)),
+      // tap(data => console.log(data)),
       map(data => data),
     );
   }
@@ -50,17 +55,19 @@ export class ChatComponent {
       data,
     });
 
-    dialog.afterClosed().pipe(
-      map(data => data.map((user: IUser) => user.id)),
-    )
-    .subscribe({
-      next: (ids) => this.createChat(ids),
+    dialog.afterClosed().subscribe({
+      next: (chat) => {
+        if (chat) this.createChat(chat);
+      },
     });
   }
 
-  private createChat(ids: number[]) {
-    this.chatService.create(ids).subscribe({
-      next: (res) => this.gotoChatDetail(res),
+  private createChat(chat: ICreateChat) {
+    this.chatService.create(chat).subscribe({
+      next: (res) => {
+        this.getAllChats();
+        this.gotoChatDetail(res);
+      },
     });
   }
 

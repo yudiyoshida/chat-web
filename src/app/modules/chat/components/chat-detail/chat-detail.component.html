@@ -1,0 +1,8 @@
+<section class="bg-gray-300 p-4 h-full space-y-4">
+  <h1 class="text-left font-bold">{{ chat?.name }}</h1>
+  <h2>Members</h2>
+  <ul class="space-y-7">
+    <li>{{ chat?.users?.me?.name }} (you)</li>
+    <li *ngFor="let user of chat?.users?.others"> {{ user.name }} </li>
+  </ul>
+</section>

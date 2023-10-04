@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IChat } from '../models/resource/chat.model';
+import { IChat, ICreateChat } from '../models/resource/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class ChatService {
     return this.http.get<IChat>(`${environment.api}/chats/${chatId}`);
   }
 
-  public create(ids: number[]) {
-    return this.http.post<IChat>(`${environment.api}/chats`, { ids });
+  public create(data: ICreateChat) {
+    return this.http.post<IChat>(`${environment.api}/chats`, data);
   }
 }

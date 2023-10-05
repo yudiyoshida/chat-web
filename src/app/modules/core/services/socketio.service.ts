@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { AccountService } from '../auth/account.service';
 import { IPayload } from '../models/resource/auth.model';
@@ -9,20 +9,24 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
-export class SocketioService {
+export class SocketioService implements OnInit {
   public account!: IPayload | null;
 
   constructor(
     private socket: Socket,
     private toastr: ToastrService,
     private accountService: AccountService,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.onError();
   }
 
   private getCredentials() {
     this.accountService.account.subscribe({
-      next: (payload) => this.account = payload,
+      next: (payload) => {
+        this.socket.ioSocket['auth'] = payload;
+      },
     });
   }
 
@@ -35,8 +39,6 @@ export class SocketioService {
   public connect(): void {
     console.log('chamou connect');
     this.getCredentials();
-    this.socket.ioSocket['auth'] = this.account;
-
     this.socket.connect();
   }
 

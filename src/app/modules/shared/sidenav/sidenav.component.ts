@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../core/auth/account.service';
 import { Observable } from 'rxjs';
+import { SocketioService } from '../../core/services/socketio.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -35,6 +36,7 @@ export class SidenavComponent {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService,
+    private socket: SocketioService,
   ) {}
 
   public buttonClick() {
@@ -46,6 +48,7 @@ export class SidenavComponent {
   }
 
   public logout() {
+    this.socket.disconnect();
     this.accountService.deleteSession();
   }
 }

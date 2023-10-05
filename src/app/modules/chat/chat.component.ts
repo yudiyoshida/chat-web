@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IChat, ICreateChat } from '../core/models/resource/chat.model';
 import { IUser } from '../core/models/resource/user.model';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IListDialogInputs, ListDialogComponent } from '../shared/dialogs/list-dialog/list-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../core/services/chat.service';
 import { UserService } from '../core/services/user.service';
-import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',

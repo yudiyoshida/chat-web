@@ -9,10 +9,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @layer components {
   .my-message {
-    @apply flex justify-end
+    @apply ml-[25%] bg-blue-400
   }
 
   .other-message {
-    @apply flex justify-start
+    @apply mr-[25%] bg-gray-300
   }
 }

@@ -1,1 +1,21 @@
-<p>message works!</p>
+<ng-container *ngIf="account$ | async as account">
+  <ng-container *ngIf="messages$ | async as messages">
+    <section
+      class="relative p-4 overflow-y-auto space-y-5 w-full min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"
+    >
+      <div *ngFor="let message of messages"
+        class="p-3 rounded-md"
+        [ngClass]="message.sentBy.id === account.id ? 'my-message' : 'other-message'"
+      >
+        <span class="break-words">{{ message.content }}</span>
+      </div>
+    </section>
+    <section class="sticky bottom-0 left-0">
+      <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+        <mat-form-field subscriptSizing="dynamic" class="w-full">
+          <input matInput type="text" placeholder="Type here..." formControlName="content">
+        </mat-form-field>
+      </form>
+    </section>
+  </ng-container>
+</ng-container>

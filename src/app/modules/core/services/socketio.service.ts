@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { AccountService } from '../auth/account.service';
 import { IPayload } from '../models/resource/auth.model';
+import { IMessage, ISendMessage } from '../models/resource/message.model';
+import { Observable, map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +14,11 @@ export class SocketioService {
 
   constructor(
     private socket: Socket,
+    private toastr: ToastrService,
     private accountService: AccountService,
-  ) {}
+  ) {
+    this.onError();
+  }
 
   private getCredentials() {
     this.accountService.account.subscribe({
@@ -20,7 +26,13 @@ export class SocketioService {
     });
   }
 
-  public connect() {
+  private onError(): void {
+    this.socket.fromEvent<string>('error').subscribe({
+      next: (res) => this.toastr.error(res),
+    });
+  }
+
+  public connect(): void {
     console.log('chamou connect');
     this.getCredentials();
     this.socket.ioSocket['auth'] = this.account;
@@ -28,8 +40,27 @@ export class SocketioService {
     this.socket.connect();
   }
 
-  public disconnect() {
+  public disconnect(): void {
     console.log('chamou disconnect');
     this.socket.disconnect();
+  }
+
+  public emitMessageList(chatId: number): void {
+    console.log('chamou emitMessageList');
+    this.socket.emit('message:list', chatId);
+  }
+
+  public onMessageList(): Observable<IMessage[]> {
+    console.log('chamou onMessageList');
+    return this.socket.fromEvent<IMessage[]>('message:list').pipe(
+      map(data => data),
+    );
+  }
+
+  public emitMessageCreate(data: ISendMessage) {
+    console.log('chamou emitMessageCreate');
+    this.socket.emit('message:create', data, () => {
+      this.socket.emit('message:list', data.chatId);
+    });
   }
 }

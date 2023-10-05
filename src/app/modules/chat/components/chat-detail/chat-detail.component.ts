@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Observable, map } from 'rxjs';
 import { IChat } from 'src/app/modules/core/models/resource/chat.model';
 import { ChatService } from 'src/app/modules/core/services/chat.service';
 
@@ -8,23 +8,16 @@ import { ChatService } from 'src/app/modules/core/services/chat.service';
   templateUrl: './chat-detail.component.html',
   styleUrls: ['./chat-detail.component.scss'],
 })
-export class ChatDetailComponent implements OnInit {
-  public chat!: IChat | null;
+export class ChatDetailComponent implements OnChanges {
+  @Input({ required: true }) chatId!: number | null;
 
-  constructor(
-    private chatService: ChatService,
-    private activatedRoute: ActivatedRoute,
-  ) {}
+  public chat$!: Observable<IChat>;
 
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe({
-      next: (params) => this.getChatById(+params['chatId']),
-    });
-  }
+  constructor(private chatService: ChatService) {}
 
-  public getChatById(id: number) {
-    this.chatService.getById(id).subscribe({
-      next: (res) => this.chat = res,
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    this.chat$ = this.chatService.getById(Number(this.chatId)).pipe(
+      map(data => data),
+    );
   }
 }

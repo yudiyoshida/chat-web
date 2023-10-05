@@ -1,8 +1,11 @@
 <div class="flex justify-between items-stretch h-[calc(100%-64px)]">
+
   <div class="w-2/3">
-    <app-message></app-message>
+    <app-message [chatId]="chatId$ | async"></app-message>
   </div>
+
   <div class="w-1/3">
-    <app-chat-detail></app-chat-detail>
+    <app-chat-detail [chatId]="chatId$ | async"></app-chat-detail>
   </div>
+  
 </div>

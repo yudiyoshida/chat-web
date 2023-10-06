@@ -61,8 +61,6 @@ export class SocketioService implements OnInit {
 
   public emitMessageCreate(data: ISendMessage) {
     console.log('chamou emitMessageCreate');
-    this.socket.emit('message:create', data, () => {
-      this.socket.emit('message:list', data.chatId);
-    });
+    this.socket.emit('message:create', data);
   }
 }

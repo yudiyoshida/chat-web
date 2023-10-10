@@ -5,6 +5,7 @@ import { IPayload } from '../models/resource/auth.model';
 import { IMessage, ISendMessage } from '../models/resource/message.model';
 import { Observable, map } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ICreateChat } from '../models/resource/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,15 @@ export class SocketioService implements OnInit {
   public disconnect(): void {
     console.log('chamou disconnect');
     this.socket.disconnect();
+  }
+
+  public emitChatCreate(chat: ICreateChat) {
+    console.log('chamou emitChatCreate');
+    this.socket.emit('chat:create', chat);
+  }
+
+  public emitRoomList() {
+    this.socket.emit('room:list');
   }
 
   public emitMessageList(chatId: number): void {

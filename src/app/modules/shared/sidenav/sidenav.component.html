@@ -35,7 +35,7 @@
       <div *ngIf="account$ | async as account" class="w-full">
         <div class="flex justify-between items-center gap-3">
           <p class="flex-grow">I'm {{ account.name }}</p>
-          <button mat-flat-button color="accent">Online</button>
+          <button mat-flat-button color="accent" (click)="showRooms()">Online</button>
           <button mat-flat-button color="accent">Offline</button>
           <button mat-flat-button color="warn" (click)="logout()">Log out</button>
         </div>

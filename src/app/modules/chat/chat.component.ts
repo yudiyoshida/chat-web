@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { IChat, ICreateChat } from '../core/models/resource/chat.model';
 import { IUser } from '../core/models/resource/user.model';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IListDialogInputs, ListDialogComponent } from '../shared/dialogs/list-dialog/list-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChatService } from '../core/services/chat.service';
 import { UserService } from '../core/services/user.service';
 import { SocketioService } from '../core/services/socketio.service';
 
@@ -22,7 +21,6 @@ export class ChatComponent {
     private router: Router,
     private socket: SocketioService,
     private activatedRoute: ActivatedRoute,
-    private chatService: ChatService,
     private userService: UserService,
   ) {}
 
@@ -31,10 +29,7 @@ export class ChatComponent {
   }
 
   public getAllChats() {
-    this.chats$ = this.chatService.getAll().pipe(
-      // tap(data => console.log(data)),
-      map(data => data),
-    );
+    this.chats$ = this.socket.onChatList();
   }
 
   public openCreateChatDialog() {
@@ -64,12 +59,6 @@ export class ChatComponent {
   }
 
   private createChat(chat: ICreateChat) {
-    // this.chatService.create(chat).subscribe({
-    //   next: (res) => {
-    //     this.getAllChats();
-    //     this.gotoChatDetail(res);
-    //   },
-    // });
     this.socket.emitChatCreate(chat);
   }
 

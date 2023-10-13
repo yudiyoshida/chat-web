@@ -3,9 +3,9 @@ import { Socket } from 'ngx-socket-io';
 import { AccountService } from '../auth/account.service';
 import { IPayload } from '../models/resource/auth.model';
 import { IMessage, ISendMessage } from '../models/resource/message.model';
-import { Observable, map } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { ICreateChat } from '../models/resource/chat.model';
+import { IChat, ICreateChat } from '../models/resource/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +25,7 @@ export class SocketioService implements OnInit {
 
   private getCredentials() {
     this.accountService.account.subscribe({
-      next: (payload) => {
-        this.socket.ioSocket['auth'] = payload;
-      },
+      next: (payload) => this.socket.ioSocket['auth'] = payload,
     });
   }
 
@@ -48,29 +46,33 @@ export class SocketioService implements OnInit {
     this.socket.disconnect();
   }
 
+  public onChatList(): Observable<IChat[]> {
+    console.log('chamou onChatList');
+    return this.socket.fromEvent<IChat[]>('chat:list');
+  }
+
   public emitChatCreate(chat: ICreateChat) {
     console.log('chamou emitChatCreate');
     this.socket.emit('chat:create', chat);
   }
 
-  public emitRoomList() {
-    this.socket.emit('room:list');
-  }
-
-  public emitMessageList(chatId: number): void {
-    console.log('chamou emitMessageList');
-    this.socket.emit('message:list', chatId);
-  }
-
-  public onMessageList(): Observable<IMessage[]> {
-    console.log('chamou onMessageList');
-    return this.socket.fromEvent<IMessage[]>('message:list').pipe(
-      map(data => data),
-    );
+  public emitChatList() {
+    this.socket.emit('chat:list');
   }
 
   public emitMessageCreate(data: ISendMessage) {
     console.log('chamou emitMessageCreate');
     this.socket.emit('message:create', data);
+  }
+
+  public onMessageCreate(): Observable<IMessage> {
+    return this.socket.fromEvent<IMessage>('message:create').pipe(
+      tap(() => console.log('chamou onMessageCreate')),
+    );
+  }
+
+  public emitMessageRead(chatId: number) {
+    console.log('chamou emitMessageRead');
+    this.socket.emit('message:read', chatId);
   }
 }

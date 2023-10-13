@@ -47,10 +47,6 @@ export class SidenavComponent {
     this.onRowClick.emit(resource);
   }
 
-  public showRooms() {
-    this.socket.emitRoomList();
-  }
-
   public logout() {
     this.socket.disconnect();
     this.accountService.deleteSession();

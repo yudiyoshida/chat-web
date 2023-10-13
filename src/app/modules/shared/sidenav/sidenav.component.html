@@ -11,13 +11,16 @@
     </mat-toolbar>
     <mat-nav-list>
       <ng-container *ngIf="resources$ | async as resources">
-        <div *ngFor="let resource of resources">
-          <div class="border border-l-8">
-            <a mat-list-item
-              [routerLink]="[resource.id]"
-              (click)="rowClick(resource)"
-            >{{ resource.name }}</a>
-          </div>
+        <div *ngFor="let resource of resources" class="border border-l-8">
+          <a mat-list-item [routerLink]="[resource.id]" (click)="rowClick(resource)">
+            <div class="flex justify-between items-center">
+              <a
+              >{{ resource.name }}</a>
+              <!-- <div *ngIf="resource._count.messages > 0">
+                <span class="bg-red-400 rounded-full px-2 py-1 text-xs">{{ resource._count.messages }}</span>
+              </div> -->
+            </div>
+          </a>
         </div>
       </ng-container>
     </mat-nav-list>
@@ -35,7 +38,7 @@
       <div *ngIf="account$ | async as account" class="w-full">
         <div class="flex justify-between items-center gap-3">
           <p class="flex-grow">I'm {{ account.name }}</p>
-          <button mat-flat-button color="accent" (click)="showRooms()">Online</button>
+          <button mat-flat-button color="accent">Online</button>
           <button mat-flat-button color="accent">Offline</button>
           <button mat-flat-button color="warn" (click)="logout()">Log out</button>
         </div>

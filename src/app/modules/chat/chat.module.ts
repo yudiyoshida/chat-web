@@ -7,16 +7,12 @@ import { MaterialModule } from 'src/app/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat.component';
 import { ChatRoomComponent } from './components/chat-room/chat-room.component';
-import { ChatDetailComponent } from './components/chat-detail/chat-detail.component';
-import { MessageComponent } from './components/message/message.component';
 
 
 @NgModule({
   declarations: [
     ChatComponent,
     ChatRoomComponent,
-    ChatDetailComponent,
-    MessageComponent,
   ],
   imports: [
     CommonModule,

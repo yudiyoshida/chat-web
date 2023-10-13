@@ -1,11 +1,37 @@
 <div class="flex justify-between items-stretch h-[calc(100%-64px)]">
 
   <div class="w-2/3">
-    <app-message [chatId]="chatId$ | async"></app-message>
+    <ng-container *ngIf="account$ | async as account">
+      <section #messagesSection
+        class="relative p-4 overflow-y-auto space-y-5 w-full min-h-[calc(100%-56px)] max-h-[calc(100%-56px)]"
+      >
+        <div *ngFor="let message of chat?.messages"
+          class="p-3 rounded-md grid grid-rows-2"
+          [ngClass]="message.sentBy.id === account.id ? 'my-message' : 'other-message'"
+        >
+          <span class="font-bold">{{ message.sentBy.name }} says:</span>
+          <span class="break-words">{{ message.content }}</span>
+        </div>
+      </section>
+    </ng-container>
+    <section class="sticky bottom-0 left-0">
+      <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+        <mat-form-field subscriptSizing="dynamic" class="w-full">
+          <input matInput type="text" placeholder="Type here..." formControlName="content">
+        </mat-form-field>
+      </form>
+    </section>
   </div>
 
   <div class="w-1/3">
-    <app-chat-detail [chatId]="chatId$ | async"></app-chat-detail>
+    <section class="bg-gray-300 p-4 h-full space-y-4">
+      <h1 class="text-left font-bold">{{ chat?.name }}</h1>
+      <h2 class="text-lg">Members</h2>
+      <ul class="space-y-3">
+        <li class="p-3 border border-black rounded-md">{{ chat?.users?.me?.name }} (you)</li>
+        <li class="p-3 border border-black rounded-md" *ngFor="let user of chat?.users?.others"> {{ user.name }} </li>
+      </ul>
+    </section>
   </div>
   
 </div>

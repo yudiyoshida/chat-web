@@ -1,3 +1,4 @@
+import { IMessage } from './message.model';
 import { IUser } from './user.model';
 
 export interface IChat {
@@ -7,6 +8,7 @@ export interface IChat {
     me: IUser;
     others: IUser[];
   };
+  messages: IMessage[];
 }
 
 export interface ICreateChat {

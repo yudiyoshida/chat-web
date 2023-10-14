@@ -16,9 +16,9 @@
             <div class="flex justify-between items-center">
               <a
               >{{ resource.name }}</a>
-              <!-- <div *ngIf="resource._count.messages > 0">
-                <span class="bg-red-400 rounded-full px-2 py-1 text-xs">{{ resource._count.messages }}</span>
-              </div> -->
+              <div *ngIf="resource.unreadMessages >= 0">
+                <span class="bg-red-400 rounded-full px-2 py-1 text-xs">{{ resource.unreadMessages }}</span>
+              </div>
             </div>
           </a>
         </div>

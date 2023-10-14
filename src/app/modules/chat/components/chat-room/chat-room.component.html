@@ -28,7 +28,11 @@
       <h1 class="text-left font-bold">{{ chat?.name }}</h1>
       <h2 class="text-lg">Members</h2>
       <ul class="space-y-3">
-        <li class="p-3 border border-black rounded-md">{{ chat?.users?.me?.name }} (you)</li>
+        <li class="p-3 border border-black rounded-md">
+          <div class="flex justify-between items-center">
+            <p>{{ chat?.users?.me?.name }} (you)</p>
+          </div>
+        </li>
         <li class="p-3 border border-black rounded-md" *ngFor="let user of chat?.users?.others"> {{ user.name }} </li>
       </ul>
     </section>

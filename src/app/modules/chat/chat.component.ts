@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IChat, ICreateChat } from '../core/models/resource/chat.model';
 import { IUser } from '../core/models/resource/user.model';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IListDialogInputs, ListDialogComponent } from '../shared/dialogs/list-dialog/list-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,7 +29,13 @@ export class ChatComponent {
   }
 
   public getAllChats() {
-    this.chats$ = this.socket.onChatList();
+    this.chats$ = this.socket.onChatList().pipe(
+      map(data => {
+        return data.map(item => {
+          return { ...item, unreadMessages: 0 };
+        });
+      }),
+    );
   }
 
   public openCreateChatDialog() {

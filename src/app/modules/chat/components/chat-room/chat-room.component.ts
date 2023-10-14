@@ -59,7 +59,7 @@ export class ChatRoomComponent implements OnInit, AfterViewChecked {
     this.chatService.getById(id).subscribe({
       next: (res) => this.chat = res,
     });
-    // this.socket.emitMessageRead(this.chatId);
+    this.socket.emitMessageRead(this.chatId);
   }
 
   public registerNewMessageEvent() {
@@ -67,8 +67,10 @@ export class ChatRoomComponent implements OnInit, AfterViewChecked {
       map(data => {
         if (data.chatId === +this.chatId) {
           this.chat?.messages.push(data);
+
         } else {
-          this.socket.emitChatList();
+          console.log('incrementUnread');
+
         }
       }),
     )
